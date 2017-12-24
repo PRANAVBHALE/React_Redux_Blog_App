@@ -3,6 +3,7 @@ import axios from 'axios'
 export const FETCH_POSTS = 'fetch_posts'
 export const Create_POST = 'create_post'
 export const FETCH_POST = 'fetch_post'
+export const DELETE_POST = "delete_post"
 
 
 
@@ -23,6 +24,7 @@ export function fetchPosts() {
 
 
 export function createPost(values,callback){
+  
   const request  = axios.post(`${ROOT_URL}/posts${API_KEY}`,values)
     .then(()=>callback())
   return {
@@ -32,7 +34,7 @@ export function createPost(values,callback){
 }
 
 export function fetchPost(id){
-  debugger
+//  debugger
   const request  = axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`)
 
 
@@ -40,8 +42,13 @@ export function fetchPost(id){
     type:FETCH_POST,
     payload:request
   }
+}
 
-
-
-
+export function deletePost(id,callback) {
+  const request  = axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
+  .then(()=>callback())
+  return {
+    type:DELETE_POST,
+    payload:id
+  }
 }
