@@ -3,10 +3,22 @@ import {connect} from 'react-redux'
 import {fetchPosts} from '../actions'
 import _ from 'lodash'
 import {Link} from 'react-router-dom'
+import Webcam from "react-webcam";
 
 
 
 class PostsIndex extends Component{
+
+  setRef = webcam => {
+    this.webcam = webcam;
+  };
+ 
+  capture = () => {
+    const imageSrc = this.webcam.getScreenshot();
+
+    console.log(imageSrc);
+    
+  };
 
   componentDidMount(){
     this.props.fetchPosts()
@@ -28,6 +40,11 @@ class PostsIndex extends Component{
 
   render(){
   //  console.log(this.props.posts);
+  const videoConstraints = {
+    width: 1280,
+    height: 1280,
+    facingMode: "user"
+  };
     return(
       <div>
         <div className="text-xs-right">
@@ -39,6 +56,17 @@ class PostsIndex extends Component{
         <ul className="list-group">
           {this.renderPosts()}
         </ul>
+        <h4>hello</h4>
+
+           <Webcam
+          audio={false}
+          height={500}
+          ref={this.setRef}
+          screenshotFormat="image/jpeg"
+          width={500}
+          videoConstraints={videoConstraints}
+        />
+        <button onClick={this.capture}>Capture photo</button>
       </div>
     )
   }
